@@ -4,6 +4,7 @@
         <classes>
             <class name="tests.SearchProperty"/>
             <class name="tests.RentalSettingsTest"/>
+            <class name="tests.checkAds"/>
 
         </classes>
     </test>
