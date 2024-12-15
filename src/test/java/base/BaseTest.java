@@ -1,13 +1,17 @@
 package base;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+import utilities.AllureHelper;
 
 import java.time.Duration;
 
@@ -23,7 +27,7 @@ public abstract class BaseTest {
     public void setupAllureResultsDirectory() {
         System.setProperty("allure.results.directory", "target/allure-results");
     }
-    @BeforeTest
+    @BeforeSuite
     public void setUp() {
 
         // Initialize WebDriver with ChromeOptions
@@ -36,6 +40,7 @@ public abstract class BaseTest {
         // Maximize browser window and set a base URL if needed
         //driver.manage().window().maximize();
     }
+
 
 
 

@@ -1,14 +1,11 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="TestSuiteXE" parallel="false">
-    <test name="Search for Paggkrati">
+    <test name="Search for Pagkrati">
         <classes>
             <class name="tests.SearchProperty"/>
+            <class name="tests.RentalSettingsTest"/>
 
         </classes>
     </test>
-<!--    <test name="Test2">-->
-<!--        <classes>-->
-<!--            <class name="testcasesxe.testxe.MainPageTest"/>-->
-<!--        </classes>-->
-<!--    </test>-->
+
 </suite>

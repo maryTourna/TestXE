@@ -21,7 +21,7 @@ import java.util.List;
 public class SearchProperty extends BaseTest {
 
     @Test
-    @Description("This test attempts to get the link of the website . Fails if any error happens.")
+    @Description("This test attempts to find all region compatible with pagrati  . Fails if any error happens.")
     @Epic("Landing Page")
     public void testLandingPage() {
 
@@ -123,7 +123,7 @@ public class SearchProperty extends BaseTest {
         String rentClass = rentButton.getAttribute("class");
         Assert.assertTrue(rentClass.contains("selected"), "Το κουμπί 'Ενοικίαση' δεν είναι επιλεγμένο!");
 
-        System.out.println("Επιβεβαιώθηκε ότι το 'Ενοικίαση' είναι επιλεγμένο!");
+        //System.out.println("Επιβεβαιώθηκε ότι το 'Ενοικίαση' είναι επιλεγμένο!");
     }
 
 
