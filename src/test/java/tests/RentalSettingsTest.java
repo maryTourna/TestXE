@@ -1,6 +1,7 @@
 package tests;
 
 import base.BaseTest;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -21,9 +22,12 @@ public class RentalSettingsTest extends BaseTest {
 
         setPrice();
         setSquareFootage();
+
+        WebElement body = driver.findElement(By.tagName("body"));
+        body.click();
     
     }
-
+@Step
    public void setPrice(){
        WebElement priceButton = null;
        clickButtonWithWait("button[data-testid='price-filter-button']",priceButton);
@@ -35,7 +39,7 @@ public class RentalSettingsTest extends BaseTest {
        sendKeysInput("input[data-testid='maximum_price_input']", maximumPrice, "700");
 
    }
-
+@Step
     public void setSquareFootage(){
         WebElement sizeButton = null;
         clickButtonWithWait("button[data-testid='size-filter-button']",sizeButton);
@@ -48,31 +52,5 @@ public class RentalSettingsTest extends BaseTest {
 
     }
 
-    public void clickButtonWithWait(String cssSelector, WebElement buttonName) {
-        try {
-            // Περιμένουμε το κουμπί να είναι ορατό και clickable
 
-            buttonName = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(cssSelector)));
-            buttonName.click();
-            // Καταγραφή στο Allure
-            AllureHelper.clickButton(String.valueOf(buttonName.toString()));
-            System.out.println("Clicked on button: " + buttonName.getAttribute("name"));
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to click on button: " + buttonName.getAttribute("name"), e);
-        }
-    }
-
-    public void sendKeysInput(String cssSelector , WebElement inputName , String value){
-        try {
-            // Περιμένουμε το κουμπί να είναι ορατό και clickable
-
-            inputName = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(cssSelector)));
-            inputName.sendKeys(value);
-            // Καταγραφή στο Allure
-
-            System.out.println("set the value: " + value + "to input");
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to send keys: " , e);
-        }
-    }
 }

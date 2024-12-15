@@ -1,5 +1,6 @@
 package base;
 
+import io.qameta.allure.Allure;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -39,6 +40,33 @@ public abstract class BaseTest {
 
         // Maximize browser window and set a base URL if needed
         //driver.manage().window().maximize();
+    }
+    public void clickButtonWithWait(String cssSelector, WebElement buttonName) {
+        try {
+            // Περιμένουμε το κουμπί να είναι ορατό και clickable
+
+            buttonName = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(cssSelector)));
+            buttonName.click();
+            // Καταγραφή στο Allure
+            AllureHelper.clickButton(String.valueOf(buttonName.getText()));
+            System.out.println("Clicked on button: " + buttonName.getText());
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to click on button: " , e);
+        }
+    }
+
+    public void sendKeysInput(String cssSelector , WebElement inputName , String value){
+        try {
+            // Περιμένουμε το κουμπί να είναι ορατό και clickable
+
+            inputName = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(cssSelector)));
+            inputName.sendKeys(value);
+            // Καταγραφή στο Allure
+            Allure.step("Setting value '" + value + "' to input field " );
+            System.out.println("set the value: " + value + "to input");
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to send keys: " , e);
+        }
     }
 
 
