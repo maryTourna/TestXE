@@ -1,0 +1,48 @@
+name: Selenium TestNG CI with Allure Reports
+
+on:
+  push:
+    branches: [main, dev]  # Εκτελείται σε push σε main ή dev branch
+  pull_request:
+    branches: [main, dev]  # Εκτελείται σε pull requests
+
+jobs:
+  test:
+    runs-on: ubuntu-latest  # Χρησιμοποιεί Ubuntu για την εκτέλεση
+
+    steps:
+      # 1. Checkout του κώδικα από το repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2. Εγκατάσταση Java 21
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      # 3. Εγκατάσταση Chrome
+      - name: Install Chrome
+        uses: browser-actions/setup-chrome@latest
+
+      # 4. Εγκατάσταση Maven dependencies και εκτέλεση tests
+      - name: Run Maven Tests
+        run: mvn clean test
+
+      # 5. Αρχειοθέτηση των αποτελεσμάτων Allure
+      - name: Upload Allure Results
+        uses: actions/upload-artifact@v3
+        with:
+          name: allure-results
+          path: target/allure-results
+
+      # 6. Δημιουργία και Ανέβασμα Allure Reports
+      - name: Generate Allure Report
+        uses: simple-elf/allure-report-action@v1
+        with:
+          allure_results: target/allure-results
+          allure_report: target/allure-report
+          gh_pages: gh-pages
+          github_token: ${{ secrets.GITHUB_TOKEN }}
