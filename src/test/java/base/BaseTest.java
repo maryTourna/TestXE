@@ -39,11 +39,11 @@ public abstract class BaseTest {
 
 
 
-@AfterTest
-public void tearDown() {
-    // Quit the driver to close browser and free resources
-    if (driver != null) {
-        driver.quit();
-    }
-}
+//@AfterTest
+//public void tearDown() {
+//    // Quit the driver to close browser and free resources
+//    if (driver != null) {
+//        driver.quit();
+//    }
+//}
 }

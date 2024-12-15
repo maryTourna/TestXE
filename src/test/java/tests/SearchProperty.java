@@ -1,9 +1,11 @@
 package tests;
 
 import base.BaseTest;
+import io.qameta.allure.Allure;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Step;
+import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import utilities.AllureHelper;
 import org.openqa.selenium.By;
@@ -13,6 +15,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SearchProperty extends BaseTest {
@@ -42,47 +45,59 @@ public class SearchProperty extends BaseTest {
 
         SelectRegions();
     }
-@Step
+    @Step
     public void SelectRegions() {
-        WebElement searchField = driver.findElement(By.xpath("//input[@name='geo_place_id']"));
+        // Εντοπισμός του input field και πληκτρολόγηση "παγκρατι"
+        By searchFieldLocator = By.cssSelector("input[name='geo_place_id']");
+        WebElement searchField = wait.until(ExpectedConditions.visibilityOfElementLocated(searchFieldLocator));
         searchField.sendKeys("παγκρατι");
 
-        // Περίμενε μέχρι να εμφανιστεί η λίστα προτεινόμενων περιοχών
+        // Περιμένουμε να εμφανιστεί το dropdown
+        By dropdownList = By.cssSelector("div[data-testid='geo_place_id_dropdown_panel']");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(dropdownList));
 
-// Wait for the dropdown panel to become visible
-    By dropdownList = By.cssSelector("div[data-testid='geo_place_id_dropdown_panel']");
-    wait.until(ExpectedConditions.visibilityOfElementLocated(dropdownList));
+        // Συλλογή αρχικών επιλογών
+        List<WebElement> options = driver.findElements(By.cssSelector("button.dropdown-panel-option"));
+        System.out.println("Total options found: " + options.size());
 
-        // Καταγραφή στο Allure με assertion
-        io.qameta.allure.Allure.step("Η λίστα προτεινόμενων εμφανίζεται", () -> {
-            WebElement dropdownElement = driver.findElement(dropdownList);
-            assert dropdownElement.isDisplayed() : "Η λίστα προτεινόμενων δεν εμφανίστηκε!";
-        });
+        int totalOptions = options.size(); // Αποθηκεύουμε το συνολικό αριθμό επιλογών
 
+        for (int i = 0; i < totalOptions; i++) {
+            // Επαναφορτώνουμε τη λίστα των κουμπιών
+            options = driver.findElements(By.cssSelector("button.dropdown-panel-option"));
 
-    // Get all dropdown option buttons
-    List<WebElement> options = driver.findElements(By.cssSelector("button.dropdown-panel-option"));
+            // Έλεγχος αν το στοιχείο υπάρχει ακόμα
+            if (i >= options.size()) {
+                System.out.println("All regions have been clicked!");
+                break; // Διακοπή του βρόχου αν δεν υπάρχουν άλλες επιλογές
+            }
 
-    System.out.println("Total options found: " + options.size());
+            // Παίρνουμε το i-οστό κουμπί και το κείμενό του
+            WebElement option = options.get(i);
+            String optionText = option.getText();
+            Allure.step("Clicking on region: " + optionText);
+            System.out.println("Selecting option: " + optionText);
 
-    // Loop through each option, print and click it
-    for (WebElement option : options) {
-        String optionText = option.getText();
-        System.out.println("Selecting option: " + optionText);
+            // Κάνουμε κλικ
+            option.click();
 
-        // Click the option
-        option.click();
+            // Αναμονή για το input field να επιστρέψει στο DOM
+            searchField = wait.until(ExpectedConditions.presenceOfElementLocated(searchFieldLocator));
+            //searchField.clear();
+            searchField.sendKeys("παγκρατι");
 
-        searchField.clear();
-//        searchField.sendKeys("παγκρατι");
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(dropdownList));
+            // Περιμένουμε να φορτωθεί ξανά το dropdown
+            wait.until(ExpectedConditions.visibilityOfElementLocated(dropdownList));
+        }
+
+       // System.out.println("All regions clicked successfully.");
+
+        // Κάνουμε κλικ στο κουμπί Αναζήτηση
+        By searchButtonLocator = By.xpath("//input[@data-testid='submit-input']");
+        WebElement searchButton = wait.until(ExpectedConditions.elementToBeClickable(searchButtonLocator));
+        Allure.step("Clicking on ΑΝΑΖΗΤΗΣΗ button.");
+        searchButton.click();
     }
-    }
-
-
-
-
-
 
 
     }
