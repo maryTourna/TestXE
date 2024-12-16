@@ -35,3 +35,11 @@ jobs:
         with:
           name: test-results
           path: target/surefire-reports
+
+      - name: Generate Allure Report
+        uses: simple-elf/allure-report-action@v1
+        with:
+          allure_results: target/allure-results
+          allure_report: target/allure-report
+          gh_pages: gh-pages
+          github_token: ${{ secrets.GITHUB_TOKEN }}
