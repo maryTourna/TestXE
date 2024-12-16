@@ -8,12 +8,14 @@ on:
 
 jobs:
   test:
-    runs-on: macos-latest
+    runs-on: macos-latest  # Εκτέλεση tests σε macOS
 
     steps:
+      # 1. Checkout του κώδικα
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # 2. Εγκατάσταση JDK 21
       - name: Set up JDK 21
         uses: actions/setup-java@v3
         with:
@@ -21,25 +23,51 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
+      # 3. Εγκατάσταση Chrome
       - name: Install Chrome
         uses: browser-actions/setup-chrome@latest
 
-      - name: List project structure
-        run: ls -R
-
+      # 4. Εκτέλεση Maven Tests
       - name: Run Maven Tests
-        run: mvn clean test -X
+        run: mvn clean test -Dallure.results.directory=target/allure-results
 
-      - name: Upload TestNG Results
+      # 5. Ανεβάζουμε τα Allure Results ως Artifact
+      - name: Upload Allure Results
         uses: actions/upload-artifact@v3
         with:
-          name: test-results
-          path: target/surefire-reports
+          name: allure-results
+          path: target/allure-results
 
-      - name: Generate Allure Report
-        uses: simple-elf/allure-report-action@v1
+  allure-report:
+    needs: test  # Το δεύτερο job θα εκτελεστεί μόνο αν ολοκληρωθεί το πρώτο
+    runs-on: ubuntu-latest  # Χρησιμοποιούμε Ubuntu για το Allure Report
+
+    steps:
+      # 1. Checkout του κώδικα
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2. Κατέβασμα των Allure Results από το προηγούμενο Job
+      - name: Download Allure Results
+        uses: actions/download-artifact@v3
         with:
-          allure_results: target/allure-results
-          allure_report: target/allure-report
-          gh_pages: gh-pages
+          name: allure-results
+          path: target/allure-results
+
+      # 3. Εγκατάσταση Allure CLI
+      - name: Install Allure
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y allure
+
+      # 4. Δημιουργία Allure Report
+      - name: Generate Allure Report
+        run: |
+          allure generate target/allure-results -o target/allure-report --clean
+
+      # 5. Δημοσίευση στο GitHub Pages
+      - name: Deploy Allure Report to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./target/allure-report
