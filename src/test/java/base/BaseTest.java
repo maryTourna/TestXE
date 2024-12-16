@@ -28,7 +28,7 @@ public abstract class BaseTest {
     @BeforeSuite
     public void setUp() {
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless"); // Για CI περιβάλλον
+        //options.addArguments("--headless"); // Για CI περιβάλλον
         options.addArguments("--disable-gpu");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
@@ -68,11 +68,11 @@ public abstract class BaseTest {
 
 
 
-@AfterSuite
-public void tearDown() {
-    // Quit the driver to close browser and free resources
-    if (driver != null) {
-        driver.quit();
-    }
-}
+//@AfterSuite
+//public void tearDown() {
+//    // Quit the driver to close browser and free resources
+//    if (driver != null) {
+//        driver.quit();
+//    }
+//}
 }

@@ -1,6 +1,8 @@
 name: Selenium TestNG CI with Allure Reports
 
 on:
+#  schedule:
+#    - cron: "0 10 * * 0"  # Κάθε Κυριακή στις 10:00 UTC
   push:
     branches: [main, dev]
   pull_request:

@@ -7,14 +7,13 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
 public class checkAds extends BaseTest {
     // Εντοπίζουμε όλα τα αποτελέσματα της σελίδας
     @Test
-    public void checkSearchResults() {
+    public void checkSearchRangeResults() {
 
         // Καθορισμένα όρια
         int minPrice = 200;
@@ -57,6 +56,10 @@ public class checkAds extends BaseTest {
 
 
     }
+    public void imageNumber(){
+
+    }
+
     private int extractNumber(String text) {
         return Integer.parseInt(text.replaceAll("[^0-9]", ""));
     }
