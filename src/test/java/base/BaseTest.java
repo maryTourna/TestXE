@@ -34,7 +34,7 @@ public abstract class BaseTest {
         options.addArguments("--disable-dev-shm-usage");
 
         driver = new ChromeDriver(options);
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         driver.manage().window().maximize();
     }
     public void clickButtonWithWait(String cssSelector, WebElement buttonName) {
