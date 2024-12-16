@@ -5,6 +5,7 @@ import io.qameta.allure.Allure;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Step;
+import org.openqa.selenium.TimeoutException;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import utilities.AllureHelper;
@@ -21,7 +22,7 @@ import java.util.List;
 public class SearchProperty extends BaseTest {
 
     @Test
-    @Description("This test attempts to get the link of the website . Fails if any error happens.")
+    @Description("This test attempts to find all region compatible with pagrati  . Fails if any error happens.")
     @Epic("Landing Page")
     public void testLandingPage() {
 
@@ -36,17 +37,21 @@ public class SearchProperty extends BaseTest {
 
         // Εύρεση και κλικ στο κουμπί "ΣΥΜΦΩΝΩ"
 
-        WebElement button = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//span[text()='ΣΥΜΦΩΝΩ']")
-        ));
-
-        button.click();
+        try {
+            WebElement button = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//span[text()='ΣΥΜΦΩΝΩ']")));
+            button.click();
+            System.out.println("Button 'ΣΥΜΦΩΝΩ' clicked.");
+        } catch (TimeoutException e) {
+            System.out.println("Button 'ΣΥΜΦΩΝΩ' not found. Skipping click.");
+        }
         AllureHelper.clickButton("ΣΥΜΦΩΝΩ");
-
+        verifyRentIsSelected();
         SelectRegions();
     }
     @Step
     public void SelectRegions() {
+
         // Εντοπισμός του input field και πληκτρολόγηση "παγκρατι"
         By searchFieldLocator = By.cssSelector("input[name='geo_place_id']");
         WebElement searchField = wait.until(ExpectedConditions.visibilityOfElementLocated(searchFieldLocator));
@@ -98,6 +103,33 @@ public class SearchProperty extends BaseTest {
         Allure.step("Clicking on ΑΝΑΖΗΤΗΣΗ button.");
         searchButton.click();
     }
+    public void verifyRentIsSelected() {
+        // Περιμένουμε το κουμπί που ανοίγει το dropdown να είναι clickable
+        WebElement dropdownButton = wait.until(ExpectedConditions.elementToBeClickable(
+                By.cssSelector("button[data-testid='open-property-transaction-dropdown']")
+        ));
+        dropdownButton.click();
+
+        // Περιμένουμε το κουμπί "Ενοικίαση" να είναι ορατό και clickable
+        WebElement rentButton = wait.until(ExpectedConditions.elementToBeClickable(
+                By.cssSelector("button[data-testid='rent']")
+        ));
+        rentButton.click();
+        AllureHelper.clickButton("ΕΝΟΙΚΙΑΣΗ");
+
+        // Επαλήθευση ότι το hidden input έχει τη σωστή τιμή
+        WebElement hiddenInput = driver.findElement(By.cssSelector("input[name='property_type']"));
+        String inputValue = hiddenInput.getAttribute("value");
+        Assert.assertEquals(inputValue, "rent", "Το hidden input δεν έχει την τιμή 'rent'!");
+
+        // Επαλήθευση ότι το κουμπί "Ενοικίαση" έχει την κλάση 'selected'
+        rentButton = driver.findElement(By.cssSelector("button[data-testid='rent']"));
+        String rentClass = rentButton.getAttribute("class");
+        Assert.assertTrue(rentClass.contains("selected"), "Το κουμπί 'Ενοικίαση' δεν είναι επιλεγμένο!");
+
+        //System.out.println("Επιβεβαιώθηκε ότι το 'Ενοικίαση' είναι επιλεγμένο!");
+    }
+
 
 
     }
