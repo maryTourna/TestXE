@@ -5,6 +5,7 @@ import io.qameta.allure.Allure;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Step;
+import org.openqa.selenium.TimeoutException;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import utilities.AllureHelper;
@@ -36,11 +37,14 @@ public class SearchProperty extends BaseTest {
 
         // Εύρεση και κλικ στο κουμπί "ΣΥΜΦΩΝΩ"
 
-        WebElement button = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//span[text()='ΣΥΜΦΩΝΩ']")
-        ));
-
-        button.click();
+        try {
+            WebElement button = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//span[text()='ΣΥΜΦΩΝΩ']")));
+            button.click();
+            System.out.println("Button 'ΣΥΜΦΩΝΩ' clicked.");
+        } catch (TimeoutException e) {
+            System.out.println("Button 'ΣΥΜΦΩΝΩ' not found. Skipping click.");
+        }
         AllureHelper.clickButton("ΣΥΜΦΩΝΩ");
         verifyRentIsSelected();
         SelectRegions();

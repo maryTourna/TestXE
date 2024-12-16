@@ -3,6 +3,7 @@ package tests;
 import base.BaseTest;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
@@ -15,7 +16,18 @@ public class RentalSettingsTest extends BaseTest {
 
     @Test
     public void setRentProperties() {
-        
+
+        //Περιμενουνε τα results
+        try {
+
+            wait.until(ExpectedConditions.visibilityOfElementLocated(
+                    By.cssSelector("h1[data-testid='Ενοικιάσεις κατοικιών στην περιοχή Παγκράτι']")));
+
+            System.out.println("The element is visible!");
+        } catch (TimeoutException e) {
+            System.out.println("The element did not appear within 10 seconds.");
+        }
+
         String pageTitle = driver.getTitle();
         AllureHelper.verifyPageTitle(pageTitle);
         Assert.assertEquals(pageTitle, "Ενοικιάσεις κατοικιών στις επιλεγμένες περιοχές");
