@@ -55,10 +55,14 @@ jobs:
           path: target/allure-results
 
       # 3. Εγκατάσταση Allure CLI
-      - name: Install Allure
+      - name: Install Allure CLI
         run: |
           sudo apt-get update
-          sudo apt-get install -y allure
+          sudo apt-get install -y wget unzip
+          wget https://github.com/allure-framework/allure2/releases/download/2.20.1/allure-2.20.1.tgz
+          tar -zxvf allure-2.20.1.tgz
+          sudo mv allure-2.20.1 /opt/allure
+          sudo ln -s /opt/allure/bin/allure /usr/bin/allure
 
       # 4. Δημιουργία Allure Report
       - name: Generate Allure Report
