@@ -8,10 +8,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import utilities.AllureHelper;
 
 import java.time.Duration;
@@ -30,20 +27,15 @@ public abstract class BaseTest {
     }
     @BeforeSuite
     public void setUp() {
-
-        // Initialize WebDriver with ChromeOptions
         ChromeOptions options = new ChromeOptions();
-// Ρυθμίσεις για Headless Mode και αποφυγή σφαλμάτων
-        options.addArguments("--headless");  // Εκτέλεση χωρίς GUI
-        options.addArguments("--no-sandbox"); // Αποφυγή security error
-        options.addArguments("--disable-dev-shm-usage"); // Αποφυγή shared memory issues
-        options.addArguments("--remote-allow-origins=*"); // Για απομακρυσμένα origins
-        options.addArguments("--disable-gpu"); // Απενεργοποίηση GPU acceleration        driver = new ChromeDriver(options); // Instantiate the driver only once
+        options.addArguments("--headless"); // Για CI περιβάλλον
+        options.addArguments("--disable-gpu");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+
+        driver = new ChromeDriver(options);
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-
-
-        // Maximize browser window and set a base URL if needed
-        //driver.manage().window().maximize();
+        driver.manage().window().maximize();
     }
     public void clickButtonWithWait(String cssSelector, WebElement buttonName) {
         try {
@@ -76,11 +68,11 @@ public abstract class BaseTest {
 
 
 
-//@AfterTest
-//public void tearDown() {
-//    // Quit the driver to close browser and free resources
-//    if (driver != null) {
-//        driver.quit();
-//    }
-//}
+@AfterSuite
+public void tearDown() {
+    // Quit the driver to close browser and free resources
+    if (driver != null) {
+        driver.quit();
+    }
+}
 }
