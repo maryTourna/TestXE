@@ -33,8 +33,12 @@ public abstract class BaseTest {
 
         // Initialize WebDriver with ChromeOptions
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--remote-allow-origins=*"); // Add any custom options for Chrome here
-        driver = new ChromeDriver(options); // Instantiate the driver only once
+// Ρυθμίσεις για Headless Mode και αποφυγή σφαλμάτων
+        options.addArguments("--headless");  // Εκτέλεση χωρίς GUI
+        options.addArguments("--no-sandbox"); // Αποφυγή security error
+        options.addArguments("--disable-dev-shm-usage"); // Αποφυγή shared memory issues
+        options.addArguments("--remote-allow-origins=*"); // Για απομακρυσμένα origins
+        options.addArguments("--disable-gpu"); // Απενεργοποίηση GPU acceleration        driver = new ChromeDriver(options); // Instantiate the driver only once
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
 
