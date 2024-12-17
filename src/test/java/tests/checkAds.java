@@ -1,6 +1,8 @@
 package tests;
 
 import base.BaseTest;
+import io.qameta.allure.Allure;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
@@ -18,16 +20,30 @@ import java.util.stream.Collectors;
 
 public class checkAds extends BaseTest {
     // Εντοπίζουμε όλα τα αποτελέσματα της σελίδας
+
     @Test
     public void checkSearchRangeResults() throws InterruptedException {
 
-        // Καθορισμένα όρια
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div.grid-x >div.lazyload-wrapper")));
+
+        // Εντοπίζουμε ΜΟΝΟ τις αγγελίες (εξαιρούμε τα widgets)
+        List<WebElement> propertyAds = driver.findElements(By.cssSelector("div.grid-x >div.lazyload-wrapper.medium-4.scroll"));
+
+        // Εκτυπώνουμε το πλήθος των αγγελιών που βρήκαμε
+        System.out.println("Total property ads found: " + propertyAds.size());
+
+
+        imageNumber();
+
+
+
+    }
+    @Step
+    public void imageNumber() throws InterruptedException {
         int minPrice = 200;
         int maxPrice = 700;
         int minSize = 75;
         int maxSize = 150;
-
-
         // Περιμένουμε να φορτωθούν τα αποτελέσματα
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div.grid-x >div.lazyload-wrapper")));
 
@@ -51,15 +67,40 @@ public class checkAds extends BaseTest {
             int countImages = images.size();
             Assert.assertTrue(countImages <= 30, "number of images: " + countImages);
 
-            //String propname =ad.getText();
-            // Εκτυπώνουμε τον αριθμό των εικόνων
-            //System.out.println(propname+"  "+"Property ad " + (i + 1) + " has " + images.size() + " images. //////////");
+
+            /// pare ta tetragwnika
+            String title = propertyAds.get(i).findElement(By.cssSelector("div:nth-child(1) > div:nth-child(2) > a:nth-child(1) > div:nth-child(1) > h3:nth-child(1)")).getText();
+                int size = extractNumber(title); // Μετατροπή σε αριθμό
+                Assert.assertTrue(size >= minSize && size <= maxSize, "Size out of range: " + size);
+
+
+
+            //Παίρνουμε την τιμή της αγγελίας
+              String price = propertyAds.get(i).findElement(By.cssSelector("div:nth-child(1) > div:nth-child(2) > a:nth-child(1) > div:nth-child(2)>div>span:nth-child(1) ")).getText();
+              int priceInt = extractNumber(price); // Μετατροπή σε αριθμό
+            Assert.assertTrue(priceInt >= minPrice && priceInt <= maxPrice, "Price out of range: " + priceInt);
+
+
+            System.out.println("Property ad " + (i + 1) + " has " + images.size() + " images. "+"has size:" +size +"  ,has price"+priceInt);
         }
 
+        Allure.step("All property ads passed the image count check.");
+        Allure.step("All property ads passed the priice and size check.");
 
 
-//// Εξάγουμε πληροφορίες από κάθε αγγελία
-//        for (WebElement ad : propertyAds) {
+    }
+//    @Step
+//    public void checkRanges(List<WebElement> propsSize) throws InterruptedException {
+//
+//        // Καθορισμένα όρια
+        int minPrice = 200;
+        int maxPrice = 700;
+        int minSize = 75;
+        int maxSize = 150;
+//
+//
+////// Εξάγουμε πληροφορίες από κάθε αγγελία
+//        for (WebElement ad : propsSize) {
 //            try {
 //                // Παίρνουμε τον τίτλο της αγγελίας
 //                String title = ad.findElement(By.xpath("//div[@class='common-property-ad-title']/h3[@data-testid='property-ad-title']")).getText();
@@ -76,15 +117,11 @@ public class checkAds extends BaseTest {
 //            }catch (Exception e) {
 //                System.err.println("Failed to verify ad: " + e.getMessage());
 //            }
-
-       // }
-       // System.out.println("All property ads have been verified successfully!");
-
-
-    }
-    public void imageNumber(){
-
-    }
+//
+//         }
+//         System.out.println("All property ads have been verified successfully!");
+//
+//    }
 
     private int extractNumber(String text) {
         return Integer.parseInt(text.replaceAll("[^0-9]", ""));
