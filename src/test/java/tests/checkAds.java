@@ -34,14 +34,14 @@ public class checkAds extends BaseTest {
         System.out.println("Total property ads found: " + propertyAds.size());
 
 
-        imageNumber();
+        checkResults();
 
 
 
 
     }
     @Step
-    public void imageNumber() throws InterruptedException {
+    public void checkResults() throws InterruptedException {
         int minPrice = 200;
         int maxPrice = 700;
         int minSize = 75;
@@ -49,15 +49,18 @@ public class checkAds extends BaseTest {
         // Περιμένουμε να φορτωθούν τα αποτελέσματα
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div.grid-x >div.lazyload-wrapper")));
 
-// Εντοπίζουμε ΜΟΝΟ τις αγγελίες (εξαιρούμε τα widgets)
+        // Εντοπίζουμε ΜΟΝΟ τις αγγελίες (εξαιρούμε τα widgets)
         List<WebElement> propertyAds = driver.findElements(By.cssSelector("div.grid-x >div.lazyload-wrapper.medium-4.scroll"));
 
-// Εκτυπώνουμε το πλήθος των αγγελιών που βρήκαμε
+        // Εκτυπώνουμε το πλήθος των αγγελιών που βρήκαμε
         //System.out.println("Total property ads found: " + propertyAds.size());
         Allure.step("Total property ads found: " + propertyAds.size());
-
-// Βρόχος για να μετρήσουμε τα images σε κάθε αγγελία
         JavascriptExecutor js = (JavascriptExecutor) driver;
+
+        // Λίστα για την αποθήκευση των τιμών
+        List<Integer> prices = new ArrayList<>();
+
+        // For για να μετρήσουμε τα images σε κάθε αγγελία
         for (int i = 0; i < propertyAds.size(); i++) {
             WebElement ad = propertyAds.get(i);
 
@@ -83,12 +86,18 @@ public class checkAds extends BaseTest {
             int priceInt = extractNumber(price);
             Assert.assertTrue(priceInt >= minPrice && priceInt <= maxPrice, "Price out of range: " + priceInt);
 
+            prices.add(priceInt);
 
             System.out.println("Property ad " + (i + 1) + " has " + images.size() + " images. "+"has size:" +size +"  ,has price"+priceInt);
         }
+        // Έλεγχος αν η λίστα των τιμών είναι ταξινομημένη σε φθίνουσα σειρά
+        for (int i = 0; i < prices.size() - 1; i++) {
+            Assert.assertTrue(prices.get(i) >= prices.get(i + 1), "Prices are not in descending order at index " + i);
+        }
 
         Allure.step("All property ads passed the image count check.");
-        Allure.step("All property ads passed the priice and size check.");
+        Allure.step("All property ads passed the price and size check.");
+        Allure.step("Prices are in descending order.");
 
 
     }
