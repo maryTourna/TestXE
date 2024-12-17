@@ -2,7 +2,7 @@
 
 The test can be executed headless or not with Chromedriver 
 
-You can run the test through git actions and see the results at :
+You can run the test through git actions manualy or  every Sunday at 10:00 UTC and see the results at :
 
 ### https://marytourna.github.io/TestXE/#suites
 
