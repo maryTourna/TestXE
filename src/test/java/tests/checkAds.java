@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import utilities.AllureHelper;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ public class checkAds extends BaseTest {
 
 
 
+
     }
     @Step
     public void imageNumber() throws InterruptedException {
@@ -51,7 +53,8 @@ public class checkAds extends BaseTest {
         List<WebElement> propertyAds = driver.findElements(By.cssSelector("div.grid-x >div.lazyload-wrapper.medium-4.scroll"));
 
 // Εκτυπώνουμε το πλήθος των αγγελιών που βρήκαμε
-        System.out.println("Total property ads found: " + propertyAds.size());
+        //System.out.println("Total property ads found: " + propertyAds.size());
+        Allure.step("Total property ads found: " + propertyAds.size());
 
 // Βρόχος για να μετρήσουμε τα images σε κάθε αγγελία
         JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -62,22 +65,22 @@ public class checkAds extends BaseTest {
             js.executeScript("arguments[0].scrollIntoView(true);", ad);
             Thread.sleep(1000); // Περίμενε για το lazy loading
 
-            // Εντοπίζουμε ΜΟΝΟ εικόνες μέσα σε img tag με div.slick-slide[style*='outline: none']
+            // Εντοπίζουμε ΜΟΝΟ εικόνες μέσα στα propertyAds τις εικόνες με div.slick-slide[style*='outline: none']
             List<WebElement> images = propertyAds.get(i).findElements(By.cssSelector("div.slick-slide[style*='outline: none']"));
             int countImages = images.size();
             Assert.assertTrue(countImages <= 30, "number of images: " + countImages);
 
 
-            /// pare ta tetragwnika
+            //Παίρνουμε τα τετραγωνικα της αγγελίας και ελέγχουμε αν ειναι μεσα στο range
             String title = propertyAds.get(i).findElement(By.cssSelector("div:nth-child(1) > div:nth-child(2) > a:nth-child(1) > div:nth-child(1) > h3:nth-child(1)")).getText();
-                int size = extractNumber(title); // Μετατροπή σε αριθμό
-                Assert.assertTrue(size >= minSize && size <= maxSize, "Size out of range: " + size);
+            int size = extractNumber(title);
+            Assert.assertTrue(size >= minSize && size <= maxSize, "Size out of range: " + size);
 
 
 
-            //Παίρνουμε την τιμή της αγγελίας
-              String price = propertyAds.get(i).findElement(By.cssSelector("div:nth-child(1) > div:nth-child(2) > a:nth-child(1) > div:nth-child(2)>div>span:nth-child(1) ")).getText();
-              int priceInt = extractNumber(price); // Μετατροπή σε αριθμό
+            //Παίρνουμε την τιμή της αγγελίας και ελέγχουμε αν ειναι μεσα στο range
+            String price = propertyAds.get(i).findElement(By.cssSelector("div:nth-child(1) > div:nth-child(2) > a:nth-child(1) > div:nth-child(2)>div>span:nth-child(1) ")).getText();
+            int priceInt = extractNumber(price);
             Assert.assertTrue(priceInt >= minPrice && priceInt <= maxPrice, "Price out of range: " + priceInt);
 
 
@@ -89,40 +92,10 @@ public class checkAds extends BaseTest {
 
 
     }
-//    @Step
-//    public void checkRanges(List<WebElement> propsSize) throws InterruptedException {
-//
-//        // Καθορισμένα όρια
-        int minPrice = 200;
-        int maxPrice = 700;
-        int minSize = 75;
-        int maxSize = 150;
-//
-//
-////// Εξάγουμε πληροφορίες από κάθε αγγελία
-//        for (WebElement ad : propsSize) {
-//            try {
-//                // Παίρνουμε τον τίτλο της αγγελίας
-//                String title = ad.findElement(By.xpath("//div[@class='common-property-ad-title']/h3[@data-testid='property-ad-title']")).getText();
-//                int size = extractNumber(title); // Μετατροπή σε αριθμό
-//                Assert.assertTrue(size >= minSize && size <= maxSize, "Size out of range: " + size);
-//
-//                // Παίρνουμε την τιμή της αγγελίας
-//                String price = ad.findElement(By.xpath("//span[@data-testid='property-ad-price']")).getText();
-//                int priceInt = extractNumber(price); // Μετατροπή σε αριθμό
-//                Assert.assertTrue(priceInt >= minPrice && priceInt <= maxPrice, "Price out of range: " + priceInt);
-//
-//                // Εκτύπωση για debugging
-//                System.out.println("Verified ad: Price = " + price + ", Size = " + size);
-//            }catch (Exception e) {
-//                System.err.println("Failed to verify ad: " + e.getMessage());
-//            }
-//
-//         }
-//         System.out.println("All property ads have been verified successfully!");
-//
-//    }
 
+
+
+    // Μετατροπή σε αριθμό
     private int extractNumber(String text) {
         return Integer.parseInt(text.replaceAll("[^0-9]", ""));
     }

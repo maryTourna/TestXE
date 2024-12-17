@@ -34,6 +34,7 @@ public class RentalSettingsTest extends BaseTest {
 
         setPrice();
         setSquareFootage();
+        sortTheAds();
 
         WebElement body = driver.findElement(By.tagName("body"));
         body.click();
@@ -63,6 +64,30 @@ public class RentalSettingsTest extends BaseTest {
         sendKeysInput("input[data-testid='maximum_size_input']", maximumSize, "150");
 
     }
+    @Step
+    public void sortTheAds(){
+        // Περιμένουμε το κουμπί που ανοίγει το dropdown να είναι clickable
+        WebElement dropdownButton = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//button[@data-testid='open-property-sorting-dropdown']")
+        ));
+        dropdownButton.click();
+
+        // Περιμένουμε το κουμπί "Τιμη Φθίνουσα"
+        WebElement descButton = null;
+        clickButtonWithWait("button[data-id='price_desc']",descButton);
+
+
+        AllureHelper.clickButton("Τιμη (Φθίνουσα)");
+
+
+        // Επαλήθευση ότι το κουμπί "Τιμη Φθίνουσα" έχει την κλάση 'selected'
+        descButton = driver.findElement(By.cssSelector("button[data-id='price_desc']"));
+        String descClass = descButton.getAttribute("class");
+        Assert.assertTrue(descClass.contains("selected"), "Το κουμπί 'Ενοικίαση' δεν είναι επιλεγμένο!");
+
+        //System.out.println("Επιβεβαιώθηκε ότι το 'Τιμη Φθίνουσα' είναι επιλεγμένο!");
+    }
+
 
 
 }
