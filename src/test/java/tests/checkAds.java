@@ -18,6 +18,11 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
+//////Με αυτο to test ελεγχονται
+/// ●When we sort the ads by descending price, the search results are correctly sorted.
+/// ● Square footage and prices are within the range we specified in the search.
+/// ● No ad contains more than 30 pictures (images are arranged in a carousel which is visible
+/// and clickable as shown below).
 
 public class checkAds extends BaseTest {
     // Εντοπίζουμε όλα τα αποτελέσματα της σελίδας
@@ -68,17 +73,17 @@ public class checkAds extends BaseTest {
             js.executeScript("arguments[0].scrollIntoView(true);", ad);
             Thread.sleep(1000); // Περίμενε για το lazy loading
 
+///  No ad contains more than 30 pictures (images are arranged in a carousel which is visible
             // Εντοπίζουμε ΜΟΝΟ εικόνες μέσα στα propertyAds τις εικόνες με div.slick-slide[style*='outline: none']
             List<WebElement> images = propertyAds.get(i).findElements(By.cssSelector("div.slick-slide[style*='outline: none']"));
             int countImages = images.size();
             Assert.assertTrue(countImages <= 30, "number of images: " + countImages);
 
-
+///Square footage and prices are within the range we specified in the search.
             //Παίρνουμε τα τετραγωνικα της αγγελίας και ελέγχουμε αν ειναι μεσα στο range
             String title = propertyAds.get(i).findElement(By.cssSelector("div:nth-child(1) > div:nth-child(2) > a:nth-child(1) > div:nth-child(1) > h3:nth-child(1)")).getText();
             int size = extractNumber(title);
             Assert.assertTrue(size >= minSize && size <= maxSize, "Size out of range: " + size);
-
 
 
             //Παίρνουμε την τιμή της αγγελίας και ελέγχουμε αν ειναι μεσα στο range
@@ -90,6 +95,7 @@ public class checkAds extends BaseTest {
 
             System.out.println("Property ad " + (i + 1) + " has " + images.size() + " images. "+"has size:" +size +"  ,has price"+priceInt);
         }
+/// ●When we sort the ads by descending price, the search results are correctly sorted.
         // Έλεγχος αν η λίστα των τιμών είναι ταξινομημένη σε φθίνουσα σειρά
         for (int i = 0; i < prices.size() - 1; i++) {
             Assert.assertTrue(prices.get(i) >= prices.get(i + 1), "Prices are not in descending order at index " + i);

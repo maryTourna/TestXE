@@ -11,7 +11,8 @@ import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 import utilities.AllureHelper;
 
-
+/// Σε αυτο το Τεστ
+/// ● Set a price from €200 to €700 and a square footage from 75m2 to 150m2 and sort the results by descending order.
 public class RentalSettingsTest extends BaseTest {
 
     @Test
@@ -38,21 +39,24 @@ public class RentalSettingsTest extends BaseTest {
 
         WebElement body = driver.findElement(By.tagName("body"));
         body.click();
-    
+
     }
-@Step
-   public void setPrice(){
-       WebElement priceButton = null;
-       clickButtonWithWait("button[data-testid='price-filter-button']",priceButton);
+    //Πειμενουμε το button "Τιμη" να ειναι clicable και στη συνεχεια δινουμε το ευρος τιμων
+    @Step
+    public void setPrice(){
+        WebElement priceButton = null;
+        clickButtonWithWait("button[data-testid='price-filter-button']",priceButton);
 
-       WebElement minimumPrice = null;
-       sendKeysInput("input[data-testid='minimum_price_input']", minimumPrice, "200");
+        WebElement minimumPrice = null;
+        sendKeysInput("input[data-testid='minimum_price_input']", minimumPrice, "200");
 
-       WebElement maximumPrice = null;
-       sendKeysInput("input[data-testid='maximum_price_input']", maximumPrice, "700");
+        WebElement maximumPrice = null;
+        sendKeysInput("input[data-testid='maximum_price_input']", maximumPrice, "700");
 
-   }
-@Step
+    }
+    //Πειμενουμε το button "Τετραγωνικά" να ειναι clicable και στη συνεχεια δινουμε το ευρος των τετραγωνικων
+
+    @Step
     public void setSquareFootage(){
         WebElement sizeButton = null;
         clickButtonWithWait("button[data-testid='size-filter-button']",sizeButton);
@@ -64,6 +68,8 @@ public class RentalSettingsTest extends BaseTest {
         sendKeysInput("input[data-testid='maximum_size_input']", maximumSize, "150");
 
     }
+
+    //Περιμενουμε τη dropdownlist ατη συνέχεια επιλεγουμε "Τιμη(Φθίνουσα)
     @Step
     public void sortTheAds(){
         // Περιμένουμε το κουμπί που ανοίγει το dropdown να είναι clickable

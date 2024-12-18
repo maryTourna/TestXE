@@ -4,9 +4,9 @@ on:
 #  schedule:
 #    - cron: "0 10 * * 0"  # Κάθε Κυριακή στις 10:00 UTC
   push:
-    branches: [main, dev]
+    branches: [Release, dev]
   pull_request:
-    branches: [main, dev]
+    branches: [Release, dev]
 
 jobs:
   test:

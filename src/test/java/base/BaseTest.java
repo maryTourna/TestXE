@@ -37,10 +37,10 @@ public abstract class BaseTest {
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         driver.manage().window().maximize();
     }
+    //click button By.cssSelector
     public void clickButtonWithWait(String cssSelector, WebElement buttonName) {
         try {
             // Περιμένουμε το κουμπί να είναι ορατό και clickable
-
             buttonName = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(cssSelector)));
             buttonName.click();
             // Καταγραφή στο Allure
@@ -51,9 +51,10 @@ public abstract class BaseTest {
         }
     }
 
+    //Set value to an input located By cssSelector
     public void sendKeysInput(String cssSelector , WebElement inputName , String value){
         try {
-            // Περιμένουμε το κουμπί να είναι ορατό και clickable
+            // Περιμένουμε το input να είναι ορατό
 
             inputName = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(cssSelector)));
             inputName.sendKeys(value);
@@ -67,12 +68,12 @@ public abstract class BaseTest {
 
 
 
-
-//@AfterSuite
-//public void tearDown() {
-//    // Quit the driver to close browser and free resources
-//    if (driver != null) {
-//        driver.quit();
-//    }
-//}
+    //At the bd of test suite quit driver and browser
+    @AfterSuite
+    public void tearDown() {
+        // Quit the driver to close browser and free resources
+        if (driver != null) {
+            driver.quit();
+        }
+    }
 }

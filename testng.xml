@@ -2,7 +2,7 @@
 <suite name="TestSuiteXE" parallel="false">
     <test name="Search for Pagkrati">
         <classes>
-            <class name="tests.SearchProperty"/>
+            <class name="tests.searchproperty"/>
             <class name="tests.RentalSettingsTest"/>
             <class name="tests.checkAds"/>
 
