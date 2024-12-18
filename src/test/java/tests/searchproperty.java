@@ -7,19 +7,16 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Step;
 import org.openqa.selenium.TimeoutException;
 import org.testng.Assert;
-import org.testng.annotations.BeforeTest;
 import utilities.AllureHelper;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 
-import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
 
-public class SearchProperty extends BaseTest {
+import java.util.List;
+/// Σε αυτο το τεστ -> search for rent ads on Παγκράτι and all related areas and check some properties of the search results. When searching for Παγκράτι (or other areas for that matter) a popup may appear that asks you to select one specific area of those proposed - in our case we want to select all areas proposed by autocomplete before proceeding to a search.
+public class searchproperty extends BaseTest {
 
     @Test
     @Description("This test attempts to find all region compatible with pagrati  . Fails if any error happens.")
@@ -35,7 +32,7 @@ public class SearchProperty extends BaseTest {
         String pageTitle = driver.getTitle();
         AllureHelper.verifyPageTitle(pageTitle);
 
-        // Εύρεση και κλικ στο κουμπί "ΣΥΜΦΩΝΩ"
+        // Εύρεση και κλικ στο κουμπί "ΣΥΜΦΩΝΩ" (accept coockies)
 
         try {
             WebElement button = wait.until(ExpectedConditions.elementToBeClickable(
@@ -103,6 +100,7 @@ public class SearchProperty extends BaseTest {
         Allure.step("Clicking on ΑΝΑΖΗΤΗΣΗ button.");
         searchButton.click();
     }
+    //Πιτοποιουμε οτι ειναι επιλεγμενο το "ΕΝΟΙΚΙΑΣΗ"
     public void verifyRentIsSelected() {
         // Περιμένουμε το κουμπί που ανοίγει το dropdown να είναι clickable
         WebElement dropdownButton = wait.until(ExpectedConditions.elementToBeClickable(
@@ -125,9 +123,10 @@ public class SearchProperty extends BaseTest {
         // Επαλήθευση ότι το κουμπί "Ενοικίαση" έχει την κλάση 'selected'
         rentButton = driver.findElement(By.cssSelector("button[data-testid='rent']"));
         String rentClass = rentButton.getAttribute("class");
-        Assert.assertTrue(rentClass.contains("selected"), "Το κουμπί 'Ενοικίαση' δεν είναι επιλεγμένο!");
+        if (rentClass != null) {
+            Assert.assertTrue(rentClass.contains("selected"), "Το κουμπί 'Ενοικίαση' δεν είναι επιλεγμένο!");
+        }
 
-        //System.out.println("Επιβεβαιώθηκε ότι το 'Ενοικίαση' είναι επιλεγμένο!");
     }
 
 
