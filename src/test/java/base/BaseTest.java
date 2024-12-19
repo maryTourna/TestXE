@@ -68,6 +68,16 @@ public abstract class BaseTest {
 
 
 
+<<<<<<< HEAD
+//At the bd of test suite quit driver and browser
+@AfterSuite
+public void tearDown() {
+    // Quit the driver to close browser and free resources
+    if (driver != null) {
+        driver.quit();
+    }
+ }
+=======
     //At the bd of test suite quit driver and browser
     @AfterSuite
     public void tearDown() {
@@ -76,4 +86,5 @@ public abstract class BaseTest {
             driver.quit();
         }
     }
+>>>>>>> 4a3ac44246fbbf0cc9c9d6de057eb4a5517f27f1
 }
