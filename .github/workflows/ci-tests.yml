@@ -30,7 +30,7 @@ jobs:
         run: mvn clean test -Dallure.results.directory=target/allure-results
 
       - name: Upload Allure Results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4.0.0
         with:
           name: allure-results
           path: target/allure-results
