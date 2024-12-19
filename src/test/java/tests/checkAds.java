@@ -102,7 +102,7 @@ public class checkAds extends BaseTest {
         }
 
         Allure.step("All property ads passed the image count check.");
-        Allure.step("All property ads passed the price and size check.");
+        Allure.step("All property ads passed the prices and sizes check.");
         Allure.step("Prices are in descending order.");
 
 
