@@ -42,17 +42,10 @@ public class RentalSettingsTest extends BaseTest {
 
     }
     //Πειμενουμε το button "Τιμη" να ειναι clicable και στη συνεχεια δινουμε το ευρος τιμων
-<<<<<<< HEAD
-@Step
-   public void setPrice(){
-       WebElement priceButton = null;
-       clickButtonWithWait("button[data-testid='price-filter-button']",priceButton);
-=======
     @Step
     public void setPrice(){
         WebElement priceButton = null;
         clickButtonWithWait("button[data-testid='price-filter-button']",priceButton);
->>>>>>> 4a3ac44246fbbf0cc9c9d6de057eb4a5517f27f1
 
         WebElement minimumPrice = null;
         sendKeysInput("input[data-testid='minimum_price_input']", minimumPrice, "200");
@@ -60,11 +53,7 @@ public class RentalSettingsTest extends BaseTest {
         WebElement maximumPrice = null;
         sendKeysInput("input[data-testid='maximum_price_input']", maximumPrice, "700");
 
-<<<<<<< HEAD
-   }
-=======
     }
->>>>>>> 4a3ac44246fbbf0cc9c9d6de057eb4a5517f27f1
     //Πειμενουμε το button "Τετραγωνικά" να ειναι clicable και στη συνεχεια δινουμε το ευρος των τετραγωνικων
 
     @Step
