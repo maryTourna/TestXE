@@ -1,4 +1,4 @@
-name: Selenium TestNG CI with Allure Reports
+name: Test xe_gr with Selenium Allure Reports
 
 on:
   #  schedule:
