@@ -126,6 +126,13 @@ public class searchproperty extends BaseTest {
         if (rentClass != null) {
             Assert.assertTrue(rentClass.contains("selected"), "Το κουμπί 'Ενοικίαση' δεν είναι επιλεγμένο!");
         }
+<<<<<<< HEAD
+
+    }
+
+
+=======
+>>>>>>> 4a3ac44246fbbf0cc9c9d6de057eb4a5517f27f1
 
     }
 
