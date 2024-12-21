@@ -41,11 +41,12 @@ public class RentalSettingsTest extends BaseTest {
         body.click();
 
     }
+
     //Πειμενουμε το button "Τιμη" να ειναι clicable και στη συνεχεια δινουμε το ευρος τιμων
     @Step
-    public void setPrice(){
+    public void setPrice() {
         WebElement priceButton = null;
-        clickButtonWithWait("button[data-testid='price-filter-button']",priceButton);
+        clickButtonWithWait("button[data-testid='price-filter-button']", priceButton);
 
         WebElement minimumPrice = null;
         sendKeysInput("input[data-testid='minimum_price_input']", minimumPrice, "200");
@@ -57,12 +58,12 @@ public class RentalSettingsTest extends BaseTest {
     //Πειμενουμε το button "Τετραγωνικά" να ειναι clicable και στη συνεχεια δινουμε το ευρος των τετραγωνικων
 
     @Step
-    public void setSquareFootage(){
+    public void setSquareFootage() {
         WebElement sizeButton = null;
-        clickButtonWithWait("button[data-testid='size-filter-button']",sizeButton);
+        clickButtonWithWait("button[data-testid='size-filter-button']", sizeButton);
 
         WebElement minimumSize = null;
-        sendKeysInput("input[data-testid='minimum_size_input']",sizeButton, "75");
+        sendKeysInput("input[data-testid='minimum_size_input']", sizeButton, "75");
 
         WebElement maximumSize = null;
         sendKeysInput("input[data-testid='maximum_size_input']", maximumSize, "150");
@@ -71,7 +72,7 @@ public class RentalSettingsTest extends BaseTest {
 
     //Περιμενουμε τη dropdownlist ατη συνέχεια επιλεγουμε "Τιμη(Φθίνουσα)
     @Step
-    public void sortTheAds(){
+    public void sortTheAds() {
         // Περιμένουμε το κουμπί που ανοίγει το dropdown να είναι clickable
         WebElement dropdownButton = wait.until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//button[@data-testid='open-property-sorting-dropdown']")
@@ -80,7 +81,7 @@ public class RentalSettingsTest extends BaseTest {
 
         // Περιμένουμε το κουμπί "Τιμη Φθίνουσα"
         WebElement descButton = null;
-        clickButtonWithWait("button[data-id='price_desc']",descButton);
+        clickButtonWithWait("button[data-id='price_desc']", descButton);
 
 
         AllureHelper.clickButton("Τιμη (Φθίνουσα)");
@@ -93,7 +94,6 @@ public class RentalSettingsTest extends BaseTest {
 
         //System.out.println("Επιβεβαιώθηκε ότι το 'Τιμη Φθίνουσα' είναι επιλεγμένο!");
     }
-
 
 
 }

@@ -10,13 +10,10 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import utilities.AllureHelper;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
+
 
 //////Με αυτο to test ελεγχονται
 /// ●When we sort the ads by descending price, the search results are correctly sorted.
