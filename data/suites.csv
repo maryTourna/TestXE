@@ -1,0 +1,4 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Sat Dec 21 06:27:17 UTC 2024","Sat Dec 21 06:27:47 UTC 2024","29745","TestSuiteXE","Search for Pagkrati","tests.checkAds","tests.checkAds","checkSearchRangeResults","checkSearchRangeResults",""
+"passed","Sat Dec 21 06:26:34 UTC 2024","Sat Dec 21 06:26:56 UTC 2024","22376","TestSuiteXE","Search for Pagkrati","tests.searchproperty","tests.searchproperty","testLandingPage","testLandingPage","This test attempts to find all region compatible with pagrati  . Fails if any error happens."
+"passed","Sat Dec 21 06:27:02 UTC 2024","Sat Dec 21 06:27:12 UTC 2024","10891","TestSuiteXE","Search for Pagkrati","tests.RentalSettingsTest","tests.RentalSettingsTest","setRentProperties","setRentProperties",""
